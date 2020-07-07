@@ -24,4 +24,8 @@ public class ConnectionFactory {
         }
 
     }
+
+    public int executeQuery(String query) throws ClassNotFoundException, SQLException {
+        return getConnection().createStatement().executeUpdate(query);
+    }
 }

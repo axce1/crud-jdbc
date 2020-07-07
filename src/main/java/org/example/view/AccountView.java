@@ -33,7 +33,7 @@ public class AccountView {
         System.out.println("Created successfully");
     }
 
-    public void updateSkill() throws IOException {
+    public void updateAccount() throws IOException {
         System.out.println("Please enter account ID: ");
         String id = scanner.nextLine();
         Account account = accountController.findAccount(Long.valueOf(id));

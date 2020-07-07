@@ -16,7 +16,7 @@ public class AccountService implements AccountRepo {
     @Override
     public Account getAccount(Long id) {
         try {
-            String sql = "SELECT * FROM Accounts WHERE id = ?";
+            String sql = "SELECT * FROM Account WHERE id = ?";
             PreparedStatement prepareStatement = conn.prepareStatement(sql);
             prepareStatement.setLong(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
@@ -34,7 +34,7 @@ public class AccountService implements AccountRepo {
     public Set<Account> getAllAccounts() {
         try {
             Statement stmt = conn.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM Account");
             Set accounts = new HashSet();
             while(resultSet.next())
             {
@@ -53,9 +53,9 @@ public class AccountService implements AccountRepo {
     public boolean addUser(Account account) {
         try {
             PreparedStatement prepareStatement = conn.prepareStatement(
-                    "INSERT INTO account VALUES (NULL, ?, ?)");
+                    "INSERT INTO Account (name, status) VALUES (?, ?)");
             prepareStatement.setString(1, account.getName());
-            prepareStatement.setString(2, account.getStatus().toString());
+            prepareStatement.setString(2, account.getStatus().name());
             int i = prepareStatement.executeUpdate();
             if(i == 1) {
                 return true;
@@ -71,9 +71,9 @@ public class AccountService implements AccountRepo {
     public boolean updateUser(Account account) {
         try {
             PreparedStatement prepareStatement = conn.prepareStatement(
-                    "UPDATE account SET name=?, status=? WHERE id=?");
+                    "UPDATE Account SET name=?, status=? WHERE id=?");
             prepareStatement.setString(1, account.getName());
-            prepareStatement.setString(2, account.getStatus().toString());
+            prepareStatement.setString(2, "test");
             prepareStatement.setLong(3, account.getId());
 
             int i = prepareStatement.executeUpdate();
@@ -90,7 +90,7 @@ public class AccountService implements AccountRepo {
     public boolean deleteUser(Long id) {
         try {
             // TODO удалять записи из базы плохая практика
-            PreparedStatement prepareStatement = conn.prepareStatement("DELETE FROM user WHERE id=?");
+            PreparedStatement prepareStatement = conn.prepareStatement("DELETE FROM Account WHERE id=?");
             prepareStatement.setLong(1, id);
             int i = prepareStatement.executeUpdate();
             if(i == 1) {
