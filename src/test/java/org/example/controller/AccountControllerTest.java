@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import org.example.model.Account;
+import org.example.model.AccountStatus;
+import org.example.service.AccountService;
 import org.example.utils.ConnectionFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,10 +15,15 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.io.IOException;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
 
 public class AccountControllerTest {
 
@@ -24,6 +32,10 @@ public class AccountControllerTest {
 
     @Mock private Connection mockConnection;
     @Mock private Statement mockStatement;
+
+    @Mock
+    private AccountController acMock;
+
 
     @Before
     public void setUp() {
@@ -40,7 +52,8 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void createAccount() {
+    public void createAccount() throws IOException {
+        Mockito.when(acMock.createAccount("super1mock")).thenReturn(true);
     }
 
     @Test
@@ -52,10 +65,15 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void findAccount() {
+    public void findAccount() throws IOException {
+//        Mockito.when(acMock.createAccount("super1mock")).thenReturn(true);
+        Mockito.verify(acMock).findAccount(Mockito.anyLong());
     }
 
     @Test
-    public void findAccounts() {
+    public void findAccounts() throws IOException {
+        Set<Account> data = new HashSet<>();
+        data.add(new Account("wer2", AccountStatus.ACTIVE));
+        Mockito.when(acMock.findAccounts()).thenReturn(data);
     }
 }

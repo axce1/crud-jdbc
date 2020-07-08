@@ -34,7 +34,7 @@ public class AccountService implements AccountRepo {
     public Set<Account> getAllAccounts() {
         try {
             Statement stmt = conn.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM Account");
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM account");
             Set accounts = new HashSet();
             while(resultSet.next())
             {
