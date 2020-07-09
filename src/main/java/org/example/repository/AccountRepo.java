@@ -5,9 +5,9 @@ import org.example.model.Account;
 import java.util.Set;
 
 public interface AccountRepo {
-    Account getAccount(Long id);
-    Set<Account> getAllAccounts();
-    boolean addUser(Account account);
-    boolean updateUser(Account account);
-    boolean deleteUser(Long id);
+    Account findById(Long id);
+    Set<Account> findAll();
+    boolean save(Account account);
+    boolean update(Account account);
+    boolean delete(Long id);
 }

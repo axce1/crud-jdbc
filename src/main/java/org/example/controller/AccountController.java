@@ -11,24 +11,24 @@ public class AccountController {
 
     AccountService accountService = new AccountService();
 
-    public boolean createAccount(String name) throws IOException {
+    public Boolean createAccount(String name) {
         Account account = new Account(name, AccountStatus.ACTIVE);
-        return accountService.addUser(account);
+        return accountService.save(account);
     }
 
-    public void deleteAccount(Long id) throws IOException {
-        accountService.deleteUser(id);
+    public Boolean deleteAccount(Long id) {
+        return accountService.delete(id);
     }
 
-    public void updateAccount(Account account) throws IOException {
-        accountService.updateUser(account);
+    public Boolean updateAccount(Account account) {
+        return accountService.update(account);
     }
 
-    public Account findAccount(Long id) throws IOException {
-        return accountService.getAccount(id);
+    public Account findAccountById(Long id) {
+        return accountService.findById(id);
     }
 
-    public Set<Account> findAccounts() throws IOException {
-        return accountService.getAllAccounts();
+    public Set<Account> findAllAccounts() {
+        return accountService.findAll();
     }
 }

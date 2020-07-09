@@ -3,77 +3,73 @@ package org.example.controller;
 import org.example.model.Account;
 import org.example.model.AccountStatus;
 import org.example.service.AccountService;
-import org.example.utils.ConnectionFactory;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
-import java.io.IOException;
-import java.sql.Statement;
-import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.when;
 
 public class AccountControllerTest {
 
-    @InjectMocks
-    private ConnectionFactory dbConnection;
-
-    @Mock private Connection mockConnection;
-    @Mock private Statement mockStatement;
-
     @Mock
-    private AccountController acMock;
+    private AccountService serviceMock;
 
+    @InjectMocks
+    private AccountController controllerMock;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testMockDBConnection() throws Exception {
-        Mockito.when(mockConnection.createStatement()).thenReturn(mockStatement);
-        Mockito.when(mockConnection.createStatement().executeUpdate(Mockito.any())).thenReturn(1);
-        int value = dbConnection.executeQuery("");
-        Assert.assertEquals(value, 0);
-        Mockito.verify(mockConnection.createStatement(), Mockito.times(1));
+    public void test_createAccount() {
+        when(serviceMock.findById(1L))
+                .thenReturn(new Account("TestUser", AccountStatus.ACTIVE));
+        Account account = controllerMock.findAccountById(1L);
+        assertEquals(account.getName(), "TestUser");
     }
 
     @Test
-    public void createAccount() throws IOException {
-        Mockito.when(acMock.createAccount("super1mock")).thenReturn(true);
+    public void test_deleteAccount() {
+        when(serviceMock.delete(anyLong())).thenReturn(true);
+        boolean result = controllerMock.deleteAccount(anyLong());
+        assertTrue(result);
     }
 
     @Test
-    public void deleteAccount() {
+    public void test_updateAccount() {
+        when(serviceMock.update(any(Account.class))).thenReturn(true);
+        boolean result = controllerMock.updateAccount(any(Account.class));
+        assertTrue(result);
     }
 
     @Test
-    public void updateAccount() {
+    public void test_findAccountById() {
+        when(serviceMock.findById(1L))
+                .thenReturn(new Account("TestUser", AccountStatus.ACTIVE));
+        Account account = controllerMock.findAccountById(1L);
+        assertEquals(account.getName(), "TestUser");
     }
 
     @Test
-    public void findAccount() throws IOException {
-//        Mockito.when(acMock.createAccount("super1mock")).thenReturn(true);
-        Mockito.verify(acMock).findAccount(Mockito.anyLong());
-    }
-
-    @Test
-    public void findAccounts() throws IOException {
+    public void test_findAllAccounts() {
         Set<Account> data = new HashSet<>();
-        data.add(new Account("wer2", AccountStatus.ACTIVE));
-        Mockito.when(acMock.findAccounts()).thenReturn(data);
+        data.add(new Account("TestUser1", AccountStatus.ACTIVE));
+        data.add(new Account("TestUser2", AccountStatus.ACTIVE));
+        given(serviceMock.findAll()).willReturn(data);
+
+        Set<Account> allAccounts = controllerMock.findAllAccounts();
+        assertEquals(allAccounts.size(), 2);
     }
 }
