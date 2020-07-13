@@ -6,17 +6,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet  id="1"  author="bob">
-        <createTable  tableName="department">
-            <column  name="id"  type="int">
-                <constraints  primaryKey="true"  nullable="false"/>
-            </column>
-            <column  name="name"  type="varchar(50)">
-                <constraints  nullable="false"/>
-            </column>
-            <column  name="active"  type="boolean"
-                     defaultValueBoolean="true"/>
-        </createTable>
-    </changeSet>
+    <include file="migrations/account-changelog.xml" relativeToChangelogFile="true" />
+    <include file="migrations/skill-changelog.xml" relativeToChangelogFile="true" />
+    <include file="migrations/developer-changelog.xml" relativeToChangelogFile="true" />
+    <include file="migrations/m2m-changelog.xml" relativeToChangelogFile="true" />
+
+
 </databaseChangeLog>
 

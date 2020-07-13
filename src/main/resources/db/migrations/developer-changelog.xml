@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_developer" author="me">
+        <createTable tableName="developer">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nickname" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+                <column name="account_id" type="bigint">
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_developer2account"
+                                 baseTableName="developer"
+                                 baseColumnNames="account_id"
+                                 referencedTableName="account"
+                                 referencedColumnNames="id"/>
+
+        <addUniqueConstraint tableName="developer" columnNames="account_id"/>
+
+        <addAutoIncrement tableName="developer" columnName="id"/>
+    </changeSet>
+</databaseChangeLog>

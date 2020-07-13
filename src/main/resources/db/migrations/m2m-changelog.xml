@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_m2m" author="me">
+    <createTable tableName="m2m_skill_developer">
+        <column name="id" type="int">
+            <constraints unique="true" primaryKey="true" nullable="false" />
+        </column>
+        <column name="developer_id" type="integer">
+            <constraints nullable="false" />
+        </column>
+        <column name="skill_id" type="integer">
+            <constraints nullable="false" />
+        </column>
+    </createTable>
+
+    <addForeignKeyConstraint constraintName="fk_developer"
+                             baseTableName="m2m_skill_developer" baseColumnNames="developer_id"
+                             referencedTableName="developer" referencedColumnNames="id" />
+    <addForeignKeyConstraint constraintName="fk_skill"
+                             baseTableName="m2m_skill_developer" baseColumnNames="skill_id"
+                             referencedTableName="skill" referencedColumnNames="id" />
+        <addAutoIncrement tableName="m2m_skill_developer" columnName="id"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class JdbcAccountRepoImpl implements AccountRepo {
 
-    Connection conn = ConnectionFactory.getConnection();
+    private final Connection conn = ConnectionFactory.getConnection();
 
     @Override
     public Account findById(Long id) {
@@ -52,10 +52,9 @@ public class JdbcAccountRepoImpl implements AccountRepo {
     public boolean save(Account account) {
         try {
             PreparedStatement prepareStatement = conn.prepareStatement(
-                    "UPDATE Account SET name=?, status=? WHERE id=?");
+                    "INSERT INTO Account (name, status) VALUES (?, ?)");
             prepareStatement.setString(1, account.getName());
-            prepareStatement.setString(2, "test");
-            prepareStatement.setLong(3, account.getId());
+            prepareStatement.setString(2, account.getStatus().name());
 
             int i = prepareStatement.executeUpdate();
             if(i == 1) {
@@ -69,6 +68,20 @@ public class JdbcAccountRepoImpl implements AccountRepo {
 
     @Override
     public boolean update(Account account) {
+        try {
+            PreparedStatement prepareStatement = conn.prepareStatement(
+                    "UPDATE Account SET name=?, status=? WHERE id=?");
+            prepareStatement.setString(1, account.getName());
+            prepareStatement.setString(2, "test");
+            prepareStatement.setLong(3, account.getId());
+
+            int i = prepareStatement.executeUpdate();
+            if(i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         return false;
     }
 

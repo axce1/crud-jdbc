@@ -17,6 +17,7 @@ public class ConnectionFactory {
     {
         try {
             DriverManager.registerDriver(new Driver());
+            // TODO setAutoCommit(false)
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException ex) {
             throw new RuntimeException("Error connecting to the database", ex);
