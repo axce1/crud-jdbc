@@ -1,13 +1,13 @@
 package org.example.service;
 
-import org.example.model.Account;
-import org.example.repository.jdbc.JdbcAccountRepoImpl;
+import org.example.model.hibernate.Account;
+import org.example.repository.hibernate.HibernateAccountRepoImpl;
 
 import java.util.Set;
 
 public class AccountService {
 
-    private JdbcAccountRepoImpl accountRepo;
+    private HibernateAccountRepoImpl accountRepo;
 
     public Account findById(Long id) {
         return accountRepo.findById(id);

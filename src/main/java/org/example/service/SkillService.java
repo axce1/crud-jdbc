@@ -1,13 +1,13 @@
 package org.example.service;
 
-import org.example.model.Skill;
-import org.example.repository.jdbc.JdbcSkillRepoImpl;
+import org.example.model.hibernate.Skill;
+import org.example.repository.hibernate.HibernateSkillRepoImpl;
 
 import java.util.Set;
 
 public class SkillService {
     
-    private JdbcSkillRepoImpl skillRepo;
+    private HibernateSkillRepoImpl skillRepo;
 
     public Skill findById(Long id) {
         return skillRepo.findById(id);

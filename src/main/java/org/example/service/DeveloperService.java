@@ -1,13 +1,13 @@
 package org.example.service;
 
-import org.example.model.Developer;
-import org.example.repository.jdbc.JdbcDeveloperRepoImpl;
+import org.example.model.hibernate.Developer;
+import org.example.repository.hibernate.HibernateDeveloperRepoImpl;
 
 import java.util.Set;
 
 public class DeveloperService {
     
-    private  JdbcDeveloperRepoImpl developerRepo;
+    private HibernateDeveloperRepoImpl developerRepo;
 
     public Developer findById(Long id) {
         return developerRepo.findById(id);

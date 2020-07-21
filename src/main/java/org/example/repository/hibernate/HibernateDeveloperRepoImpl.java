@@ -1,33 +1,88 @@
 package org.example.repository.hibernate;
 
-import org.example.model.Developer;
+import org.example.exception.DataAccessLayerException;
+import org.example.model.hibernate.Developer;
+import org.example.model.hibernate.Skill;
 import org.example.repository.DeveloperRepo;
+import org.example.utils.HibernateSessionFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.Set;
 
 public class HibernateDeveloperRepoImpl implements DeveloperRepo {
     @Override
     public boolean save(Developer developer) {
-        return false;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            session.save(developer);
+            tx.commit();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new DataAccessLayerException("Transation error");
+        } finally {
+            session.close();
+        }
+        return true;
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Developer developer = new Developer();
+            developer.setId(id);
+            session.delete(developer);
+            tx.commit();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new DataAccessLayerException("Transation error");
+        } finally {
+            session.close();
+        }
+        return true;
     }
 
     @Override
     public Developer findById(Long id) {
-        return null;
+        return HibernateSessionFactory.getSessionFactory().openSession().get(Developer.class, id);
     }
 
     @Override
     public boolean update(Developer developer) {
-        return false;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            session.update(developer);
+            tx.commit();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new DataAccessLayerException("Transation error");
+        } finally {
+            session.close();
+        }
+        return true;
     }
 
     @Override
     public Set<Developer> findAll() {
-        return null;
+        Set objects = null;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query query = session.createQuery("from " + Developer.class);
+            objects = (Set) query.list();
+            tx.commit();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new DataAccessLayerException("Transation error");
+        } finally {
+            session.close();
+        }
+        return objects;
     }
 }
