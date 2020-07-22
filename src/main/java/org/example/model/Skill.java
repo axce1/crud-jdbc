@@ -1,6 +1,13 @@
 package org.example.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="skill")
 public class Skill {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
     String name;
 

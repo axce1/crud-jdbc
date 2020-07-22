@@ -1,11 +1,26 @@
 package org.example.model;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name="developer")
 public class Developer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
     String nickname;
+
+    @ManyToMany
+    @JoinTable(
+        name="m2m_skill_developer",
+        joinColumns=@JoinColumn(name="fk_developer", referencedColumnName="id"),
+        inverseJoinColumns=@JoinColumn(name="fk_skill", referencedColumnName="id"))
     Set<Skill> skills;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id", referencedColumnName = "id")
     Account account;
 
     public Developer() {

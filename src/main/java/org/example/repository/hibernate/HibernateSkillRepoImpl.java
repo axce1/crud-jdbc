@@ -1,8 +1,7 @@
 package org.example.repository.hibernate;
 
 import org.example.exception.DataAccessLayerException;
-import org.example.model.hibernate.Account;
-import org.example.model.hibernate.Skill;
+import org.example.model.Skill;
 import org.example.repository.SkillRepo;
 import org.example.utils.HibernateSessionFactory;
 import org.hibernate.HibernateException;

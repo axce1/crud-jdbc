@@ -1,6 +1,15 @@
 package org.example.model;
 
+import org.example.model.AccountStatus;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="account")
 public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
     private Enum<AccountStatus> status;

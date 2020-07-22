@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.model.hibernate.Account;
+import org.example.model.Account;
 import org.example.repository.hibernate.HibernateAccountRepoImpl;
 
 import java.util.Set;

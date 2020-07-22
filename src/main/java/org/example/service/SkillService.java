@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.model.hibernate.Skill;
+import org.example.model.Skill;
 import org.example.repository.hibernate.HibernateSkillRepoImpl;
 
 import java.util.Set;
