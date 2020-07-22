@@ -3,17 +3,18 @@ package org.example.service;
 import org.example.model.Skill;
 import org.example.repository.hibernate.HibernateSkillRepoImpl;
 
+import java.util.List;
 import java.util.Set;
 
 public class SkillService {
     
-    private HibernateSkillRepoImpl skillRepo;
+    private HibernateSkillRepoImpl skillRepo = new HibernateSkillRepoImpl();
 
     public Skill findById(Long id) {
         return skillRepo.findById(id);
     }
 
-    public Set<Skill> findAll() {
+    public List<Skill> findAll() {
         return skillRepo.findAll();
     }
 

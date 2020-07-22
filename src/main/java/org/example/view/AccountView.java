@@ -4,6 +4,7 @@ import org.example.controller.AccountController;
 import org.example.model.Account;
 
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class AccountView {
     }
 
     public void findAllAccounts() {
-        Set<Account> setAccounts = null;
+        List<Account> setAccounts = null;
         System.out.println("Please enter findAll to find all accounts: ");
         String input = scanner.nextLine();
         if(input.equals("findAll"))

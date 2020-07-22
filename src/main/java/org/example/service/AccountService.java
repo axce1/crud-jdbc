@@ -3,17 +3,18 @@ package org.example.service;
 import org.example.model.Account;
 import org.example.repository.hibernate.HibernateAccountRepoImpl;
 
+import java.util.List;
 import java.util.Set;
 
 public class AccountService {
 
-    private HibernateAccountRepoImpl accountRepo;
+    private HibernateAccountRepoImpl accountRepo = new HibernateAccountRepoImpl();
 
     public Account findById(Long id) {
         return accountRepo.findById(id);
     }
 
-    public Set<Account> findAll() {
+    public List<Account> findAll() {
         return accountRepo.findAll();
     }
 

@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.model.Developer;
 import org.example.repository.hibernate.HibernateDeveloperRepoImpl;
 
+import java.util.List;
 import java.util.Set;
 
 public class DeveloperService {
@@ -13,7 +14,7 @@ public class DeveloperService {
         return developerRepo.findById(id);
     }
 
-    public Set<Developer> findAll() {
+    public List<Developer> findAll() {
         return developerRepo.findAll();
     }
 

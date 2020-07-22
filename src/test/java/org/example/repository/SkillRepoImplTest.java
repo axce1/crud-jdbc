@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.model.Account;
 import org.example.model.Skill;
 import org.example.repository.hibernate.HibernateSkillRepoImpl;
 import org.junit.Before;
@@ -8,7 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -62,11 +65,11 @@ public class SkillRepoImplTest {
 
     @Test
     public void findAll() {
-        Set<Skill> data = new HashSet<>();
+        List<Skill> data = new ArrayList<>();
         data.add(new Skill("TestSkill"));
         given(skillRepoMock.findAll()).willReturn(data);
 
-        Set<Skill> allSkills = skillRepoMock.findAll();
+        List<Skill> allSkills = skillRepoMock.findAll();
         assertEquals(allSkills.size(), 1);
         verify(skillRepoMock).findAll();
     }

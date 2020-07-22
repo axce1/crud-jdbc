@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public class HibernateAccountRepoImpl implements AccountRepo {
@@ -68,13 +69,13 @@ public class HibernateAccountRepoImpl implements AccountRepo {
     }
 
     @Override
-    public Set<Account> findAll() {
-        Set objects = null;
+    public List<Account> findAll() {
+        List objects = null;
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("from " + Account.class);
-            objects = (Set) query.list();
+            Query query = session.createQuery("FROM Account");
+            objects = query.list();
             tx.commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();

@@ -1,19 +1,21 @@
 package org.example.service;
 
+import org.example.model.Account;
 import org.example.model.Developer;
-import org.example.model.Skill;
-import org.example.repository.jdbc.JdbcAccountRepoImpl;
-import org.example.repository.jdbc.JdbcDeveloperRepoImpl;
+import org.example.repository.hibernate.HibernateDeveloperRepoImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -21,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class DeveloperServiceTest {
 
     @Mock
-    private JdbcDeveloperRepoImpl repoMock;
+    private HibernateDeveloperRepoImpl repoMock;
 
     @InjectMocks
     private DeveloperService serviceMock;
@@ -42,12 +44,12 @@ public class DeveloperServiceTest {
 
     @Test
     public void findAll() {
-        Set<Developer> data = new HashSet<>();
+        List<Developer> data = new ArrayList<>();
         data.add(new Developer("TestUser1"));
         data.add(new Developer("TestUser2"));
         given(repoMock.findAll()).willReturn(data);
 
-        Set<Developer> allDevelopers = serviceMock.findAll();
+        List<Developer> allDevelopers = serviceMock.findAll();
         assertEquals(allDevelopers.size(), 2);
     }
 

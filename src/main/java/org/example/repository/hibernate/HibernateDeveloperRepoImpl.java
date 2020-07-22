@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public class HibernateDeveloperRepoImpl implements DeveloperRepo {
@@ -68,13 +69,13 @@ public class HibernateDeveloperRepoImpl implements DeveloperRepo {
     }
 
     @Override
-    public Set<Developer> findAll() {
-        Set objects = null;
+    public List<Developer> findAll() {
+        List objects = null;
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
             Query query = session.createQuery("from " + Developer.class);
-            objects = (Set) query.list();
+            objects = query.list();
             tx.commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();

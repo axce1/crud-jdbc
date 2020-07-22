@@ -9,7 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -57,44 +59,44 @@ public class AccountRepoImplTest {
 
     @Test
     public void test_FindAll_Return_True() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();
         data.add(new Account("TestUser", AccountStatus.ACTIVE));
         given(accountRepoMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = accountRepoMock.findAll();
+        List<Account> allAccounts = accountRepoMock.findAll();
         assertEquals(allAccounts.size(), 1);
         verify(accountRepoMock).findAll();
     }
 
     @Test
     public void test_FindAll_Contain() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();
         Account account = new Account("TestUser", AccountStatus.ACTIVE);
         data.add(account);
         given(accountRepoMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = accountRepoMock.findAll();
+        List<Account> allAccounts = accountRepoMock.findAll();
         assertTrue(allAccounts.contains(account));
     }
 
     @Test
     public void test_FindAll_Not_Contain() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();;
         Account account = new Account("TestUser", AccountStatus.ACTIVE);
         data.add(account);
         given(accountRepoMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = accountRepoMock.findAll();
+        List<Account> allAccounts = accountRepoMock.findAll();
         assertFalse(allAccounts.contains(new Account("NewTestUser", AccountStatus.ACTIVE)));
     }
 
     @Test
     public void test_FindAll_Return_False() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();
         data.add(new Account("TestUser", AccountStatus.ACTIVE));
         given(accountRepoMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = accountRepoMock.findAll();
+        List<Account> allAccounts = accountRepoMock.findAll();
         assertNotEquals(allAccounts.size(), 2);
     }
 

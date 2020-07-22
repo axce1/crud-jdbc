@@ -9,7 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -64,12 +66,12 @@ public class AccountControllerTest {
 
     @Test
     public void test_findAllAccounts() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();
         data.add(new Account("TestUser1", AccountStatus.ACTIVE));
         data.add(new Account("TestUser2", AccountStatus.ACTIVE));
         given(serviceMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = controllerMock.findAllAccounts();
+        List<Account> allAccounts = controllerMock.findAllAccounts();
         assertEquals(allAccounts.size(), 2);
     }
 }

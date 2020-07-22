@@ -2,14 +2,16 @@ package org.example.service;
 
 import org.example.model.Account;
 import org.example.model.AccountStatus;
-import org.example.repository.jdbc.JdbcAccountRepoImpl;
+import org.example.repository.hibernate.HibernateAccountRepoImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class AccountServiceTest {
 
     @Mock
-    private JdbcAccountRepoImpl repoMock;
+    private HibernateAccountRepoImpl repoMock;
 
     @InjectMocks
     private AccountService serviceMock;
@@ -41,12 +43,12 @@ public class AccountServiceTest {
 
     @Test
     public void test_FindAll_Return_SetAccounts() {
-        Set<Account> data = new HashSet<>();
+        List<Account> data = new ArrayList<>();
         data.add(new Account("TestUser1", AccountStatus.ACTIVE));
         data.add(new Account("TestUser2", AccountStatus.ACTIVE));
         given(repoMock.findAll()).willReturn(data);
 
-        Set<Account> allAccounts = serviceMock.findAll();
+        List<Account> allAccounts = serviceMock.findAll();
         assertEquals(allAccounts.size(), 2);
     }
 

@@ -3,16 +3,18 @@ package org.example.model;
 import org.example.model.AccountStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="account")
-public class Account {
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
-    private Enum<AccountStatus> status;
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
 
     public Account() {
     }
@@ -48,7 +50,7 @@ public class Account {
         return status;
     }
 
-    public void setStatus(Enum<AccountStatus> status) {
+    public void setStatus(AccountStatus status) {
         this.status = status;
     }
 }

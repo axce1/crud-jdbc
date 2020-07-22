@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import java.util.List;
 import java.util.Set;
 
 public interface GenericRepository<T, ID> {
@@ -11,5 +12,5 @@ public interface GenericRepository<T, ID> {
 
     boolean update(T t);
 
-    Set<T> findAll();
+    List<T> findAll();
 }

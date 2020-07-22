@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public class HibernateSkillRepoImpl implements SkillRepo {
@@ -68,13 +69,13 @@ public class HibernateSkillRepoImpl implements SkillRepo {
     }
 
     @Override
-    public Set<Skill> findAll() {
-        Set objects = null;
+    public List<Skill> findAll() {
+        List objects = null;
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("from " + Skill.class);
-            objects = (Set) query.list();
+            Query query = session.createQuery("FROM Skill");
+            objects = query.list();
             tx.commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();

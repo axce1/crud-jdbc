@@ -2,10 +2,9 @@ package org.example.controller;
 
 import org.example.model.Account;
 import org.example.model.AccountStatus;
-import org.example.repository.jdbc.JdbcAccountRepoImpl;
 import org.example.service.AccountService;
 
-import java.util.Set;
+import java.util.List;
 
 public class AccountController {
 
@@ -28,7 +27,7 @@ public class AccountController {
         return accountService.findById(id);
     }
 
-    public Set<Account> findAllAccounts() {
+    public List<Account> findAllAccounts() {
         return accountService.findAll();
     }
 }

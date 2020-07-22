@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.model.Account;
 import org.example.model.Developer;
 import org.example.repository.hibernate.HibernateDeveloperRepoImpl;
 import org.junit.Before;
@@ -8,7 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -62,11 +65,11 @@ public class DeveloperRepoImplTest {
 
     @Test
     public void findAll() {
-        Set<Developer> data = new HashSet<>();
+        List<Developer> data = new ArrayList<>();
         data.add(new Developer("TestUser"));
         given(developerRepoMock.findAll()).willReturn(data);
 
-        Set<Developer> allDevelper = developerRepoMock.findAll();
+        List<Developer> allDevelper = developerRepoMock.findAll();
         assertEquals(allDevelper.size(), 1);
         verify(developerRepoMock).findAll();
     }
