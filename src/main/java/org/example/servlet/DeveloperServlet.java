@@ -5,8 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.example.dto.JsonResponseMessage;
 import org.example.exception.JsonMapperException;
-import org.example.model.Skill;
-import org.example.service.SkillService;
+import org.example.model.Account;
+import org.example.model.Developer;
+import org.example.service.DeveloperService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,43 +19,40 @@ import java.util.List;
 
 import static org.example.utils.ResponseUtils.customResponse;
 
-
 @WebServlet(
-        name = "SkillServlet",
-        urlPatterns = {"/skills/*"}
+        name = "DevelopServlet",
+        urlPatterns = {"/developers/*"}
 )
-public class SkillServlet extends HttpServlet {
+public class DeveloperServlet extends HttpServlet {
 
-    private SkillService skillService = new SkillService();
+    private DeveloperService developerService = new DeveloperService();
     private Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
         String[] parts = request.getPathInfo().split("/");
 
         if (parts.length == 0) {
-            List<Skill> skillList = skillService.findAll();
-            String json = gson.toJson(skillList);
+            List<Developer> developerList = developerService.findAll();
+            String json = gson.toJson(developerList);
             JsonResponseMessage respMessage =
                     new JsonResponseMessage(json, 200);
             customResponse(response, respMessage);
         } else {
-            Skill skill = skillService.findById(Long.valueOf(parts[1]));
-            if (skill == null) {
+            Developer developer = developerService.findById(Long.valueOf(parts[1]));
+            if (developer == null) {
                 JsonResponseMessage respMessage =
                         new JsonResponseMessage("Not found", 404);
                 customResponse(response, respMessage);
             }
-            String json = gson.toJson(skill);
+            String json = gson.toJson(developer);
             JsonResponseMessage respMessage =
                     new JsonResponseMessage(json, 200);
-            customResponse(response, json);
+            customResponse(response, respMessage);
         }
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -73,10 +71,10 @@ public class SkillServlet extends HttpServlet {
         }
 
         try {
-            Skill skill = mapper.readValue(jb.toString(), Skill.class);
-            skillService.save(skill);
+            Developer developer = mapper.readValue(jb.toString(), Developer.class);
+            developerService.save(developer);
             JsonResponseMessage respMessage =
-                    new JsonResponseMessage("Skill created", 201);
+                    new JsonResponseMessage("User created", 201);
             customResponse(response, respMessage);
         } catch (JsonProcessingException e) {
             JsonResponseMessage respMessage =
@@ -89,12 +87,18 @@ public class SkillServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+        String[] parts = request.getPathInfo().split("/");
 
-        String  skillId = request.getParameter("id");
-        skillService.delete(Long.valueOf(skillId));
-        JsonResponseMessage respMessage =
-                new JsonResponseMessage("Skill deleted", 200);
-        customResponse(response, respMessage);
+        if (parts.length == 0) {
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("Not found", 404);
+            customResponse(response, respMessage);
+        } else {
+            developerService.delete(Long.valueOf(parts[1]));
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("User deleted", 200);
+            customResponse(response, respMessage);
+        }
     }
 
     @Override
@@ -114,10 +118,10 @@ public class SkillServlet extends HttpServlet {
         }
 
         try {
-            Skill skill = mapper.readValue(jb.toString(), Skill.class);
-            skillService.update(skill);
+            Developer developer = mapper.readValue(jb.toString(), Developer.class);
+            developerService.update(developer);
             JsonResponseMessage respMessage =
-                    new JsonResponseMessage("Skill updated", 200);
+                    new JsonResponseMessage("User updated", 200);
             customResponse(response, respMessage);
         } catch (JsonProcessingException e) {
             JsonResponseMessage respMessage =

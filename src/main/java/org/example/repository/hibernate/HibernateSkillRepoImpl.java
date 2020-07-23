@@ -57,6 +57,9 @@ public class HibernateSkillRepoImpl implements SkillRepo {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
+            Skill updSkill = new Skill();
+            updSkill.setId(skill.getId());
+            updSkill.setName(skill.getName());
             session.update(skill);
             tx.commit();
         } catch (HibernateException e) {

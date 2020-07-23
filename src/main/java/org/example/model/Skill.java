@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Skill implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
 

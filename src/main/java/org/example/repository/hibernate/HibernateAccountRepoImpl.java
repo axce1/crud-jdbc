@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
-import java.util.Set;
 
 public class HibernateAccountRepoImpl implements AccountRepo {
     @Override
@@ -57,7 +56,7 @@ public class HibernateAccountRepoImpl implements AccountRepo {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
-            session.update(account);
+            session.saveOrUpdate(account);
             tx.commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();

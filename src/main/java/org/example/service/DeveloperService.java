@@ -4,11 +4,10 @@ import org.example.model.Developer;
 import org.example.repository.hibernate.HibernateDeveloperRepoImpl;
 
 import java.util.List;
-import java.util.Set;
 
 public class DeveloperService {
     
-    private HibernateDeveloperRepoImpl developerRepo;
+    private HibernateDeveloperRepoImpl developerRepo = new HibernateDeveloperRepoImpl();
 
     public Developer findById(Long id) {
         return developerRepo.findById(id);

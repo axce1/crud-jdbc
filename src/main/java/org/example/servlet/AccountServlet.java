@@ -1,49 +1,58 @@
 package org.example.servlet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import org.example.dto.JsonResponseMessage;
 import org.example.exception.JsonMapperException;
 import org.example.model.Account;
 import org.example.service.AccountService;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.utils.ResponseUtils.customResponse;
 
 
-public class AccountServlet  extends HttpServlet {
-
-    private final String OK_MESSAGE = "{\"mesage\": \"OK\"}";
-    private final String ERROR_MESSAGE = "{\"mesage\": \"ERROR\"}";
-
+@WebServlet(
+        name = "AccountServlet",
+        urlPatterns = {"/accounts/*"}
+)
+public class AccountServlet extends HttpServlet {
 
     private AccountService accountService = new AccountService();
+    private Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        List<Account> accountList = new ArrayList<>();
-        String  accountId = request.getParameter("id");
-
-        if (accountId != null) {
-            Account account = accountService.findById(Long.valueOf(accountId));
-            accountList.add(account);
-        } else {
-            accountList = accountService.findAll();
-        }
-
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(accountList);
+        String[] parts = request.getPathInfo().split("/");
 
-        customResponse(response, jsonString);
+        if (parts.length == 0) {
+            List<Account> accountList = accountService.findAll();
+            String json = gson.toJson(accountList);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage(json, 200);
+            customResponse(response, respMessage);
+        } else {
+            Account account = accountService.findById(Long.valueOf(parts[1]));
+            if (account == null) {
+                JsonResponseMessage respMessage =
+                        new JsonResponseMessage("Not found", 404);
+                customResponse(response, respMessage);
+            }
+            String json = gson.toJson(account);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage(json, 200);
+            customResponse(response, json);
+        }
     }
 
     @Override
@@ -65,9 +74,13 @@ public class AccountServlet  extends HttpServlet {
         try {
             Account account = mapper.readValue(jb.toString(), Account.class);
             accountService.save(account);
-            customResponse(response, OK_MESSAGE);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("User created", 201);
+            customResponse(response, respMessage);
         } catch (JsonProcessingException e) {
-            customResponse(response, ERROR_MESSAGE);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("Bad request", 400);
+            customResponse(response, respMessage);
             throw new JsonMapperException("Error parsing JSON request string");
         }
     }
@@ -78,8 +91,9 @@ public class AccountServlet  extends HttpServlet {
 
         String  accountId = request.getParameter("id");
         accountService.delete(Long.valueOf(accountId));
-
-        customResponse(response, OK_MESSAGE);
+        JsonResponseMessage respMessage =
+                new JsonResponseMessage("User deleted", 200);
+        customResponse(response, respMessage);
     }
 
     @Override
@@ -101,9 +115,13 @@ public class AccountServlet  extends HttpServlet {
         try {
             Account account = mapper.readValue(jb.toString(), Account.class);
             accountService.update(account);
-            customResponse(response, OK_MESSAGE);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("User updated", 200);
+            customResponse(response, respMessage);
         } catch (JsonProcessingException e) {
-            customResponse(response, ERROR_MESSAGE);
+            JsonResponseMessage respMessage =
+                    new JsonResponseMessage("Bad request", 400);
+            customResponse(response, respMessage);
             throw new JsonMapperException("Error parsing JSON request string");
         }
     }

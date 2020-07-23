@@ -57,7 +57,7 @@ public class HibernateDeveloperRepoImpl implements DeveloperRepo {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
-            session.update(developer);
+            session.saveOrUpdate(developer);
             tx.commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -74,7 +74,7 @@ public class HibernateDeveloperRepoImpl implements DeveloperRepo {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("from " + Developer.class);
+            Query query = session.createQuery("FROM Developer");
             objects = query.list();
             tx.commit();
         } catch (HibernateException e) {

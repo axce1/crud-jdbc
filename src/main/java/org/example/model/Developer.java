@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,15 +10,16 @@ import java.util.Set;
 public class Developer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String nickname;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinTable(
         name="m2m_skill_developer",
-        joinColumns=@JoinColumn(name="fk_developer", referencedColumnName="id"),
-        inverseJoinColumns=@JoinColumn(name="fk_skill", referencedColumnName="id"))
+        joinColumns=@JoinColumn(name="developer_id", referencedColumnName="id"),
+        inverseJoinColumns=@JoinColumn(name="skill_id", referencedColumnName="id"))
     Set<Skill> skills;
 
     @OneToOne(cascade = CascadeType.ALL)
